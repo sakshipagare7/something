@@ -22,11 +22,11 @@
             <!-- Reference Images -->
             <div class="reference-images">
                 <div class="reference">
-                    <img src="photo1.jpg" alt="Puzzle 1 Reference" class="reference-img" id="ref1">
+                    <img src="photo1.jpg" alt="Puzzle 1 Reference" class="reference-img" id="ref1" crossorigin="anonymous">
                     <p>Puzzle 1 Target</p>
                 </div>
                 <div class="reference">
-                    <img src="photo2.jpg" alt="Puzzle 2 Reference" class="reference-img" id="ref2">
+                    <img src="photo2.jpg" alt="Puzzle 2 Reference" class="reference-img" id="ref2" crossorigin="anonymous">
                     <p>Puzzle 2 Target</p>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                 <h1 class="date-question">💖 Will you go on a date with me? 💖</h1>
                 
                 <div class="memory-photo">
-                    <img src="couple-photo2.jpeg" alt="Our Memory" id="memoryPhoto">
+                    <img src="couple-photo2.jpeg" alt="Our Memory" id="memoryPhoto" crossorigin="anonymous">
                     <div class="photo-glow"></div>
                 </div>
                 
@@ -153,9 +153,9 @@
     <script>
         // ==================== REAL IMAGE PUZZLE USING CANVAS ====================
 
-        // Your photos
-        const photo1 = 'photo1.jpg';
-        const photo2 = 'photo2.jpg';
+        // Your photos - FIXED: Use exact paths for GitHub
+        const photo1 = './photo1.jpg';
+        const photo2 = './photo2.jpg';
         
         // Puzzle state
         let puzzle1Solved = false;
@@ -181,11 +181,24 @@
             const img1 = new Image();
             const img2 = new Image();
             
-            img1.crossOrigin = 'anonymous';
-            img2.crossOrigin = 'anonymous';
+            // FIXED: Remove crossOrigin for GitHub (causes issues)
+            // img1.crossOrigin = 'anonymous';
+            // img2.crossOrigin = 'anonymous';
             
-            img1.src = photo1 + '?t=' + new Date().getTime(); // Cache bust
-            img2.src = photo2 + '?t=' + new Date().getTime();
+            // FIXED: Add timestamp to prevent caching issues
+            img1.src = photo1 + '?t=' + Date.now();
+            img2.src = photo2 + '?t=' + Date.now();
+            
+            // FIXED: Better error handling
+            img1.onerror = function() {
+                console.error('Failed to load image 1');
+                document.getElementById('gameMessage').innerHTML = '❌ Error loading photo1.jpg. Please check file path.';
+            };
+            
+            img2.onerror = function() {
+                console.error('Failed to load image 2');
+                document.getElementById('gameMessage').innerHTML = '❌ Error loading photo2.jpg. Please check file path.';
+            };
             
             Promise.all([
                 new Promise(resolve => { img1.onload = resolve; }),
@@ -209,6 +222,9 @@
                 renderPuzzle('puzzle1', puzzle1Pieces, canvas1);
                 renderPuzzle('puzzle2', puzzle2Pieces, canvas2);
                 updatePieceCount();
+                
+                // FIXED: Success message
+                console.log('Puzzles initialized successfully');
             }).catch(error => {
                 console.error('Error loading images:', error);
                 document.getElementById('gameMessage').innerHTML = '❌ Error loading images. Please check file paths.';
@@ -252,11 +268,10 @@
                 pieceDiv.setAttribute('data-index', index);
                 pieceDiv.setAttribute('data-value', piece);
                 
-                // Convert canvas to data URL
-                pieceDiv.style.backgroundImage = `url('${pieceCanvas.toDataURL()}')`;
+                // FIXED: Use toDataURL('image/jpeg', 1.0) for better compatibility
+                pieceDiv.style.backgroundImage = `url('${pieceCanvas.toDataURL('image/jpeg', 1.0)}')`;
                 pieceDiv.style.backgroundSize = 'cover';
-                
-                // NO NUMBERS ADDED - pieces are clean
+                pieceDiv.style.backgroundRepeat = 'no-repeat';
                 
                 pieceDiv.addEventListener('click', () => selectPiece(puzzleId, index));
                 puzzle.appendChild(pieceDiv);
@@ -490,9 +505,12 @@
         // ==================== EVENT LISTENERS ====================
         
         document.addEventListener('DOMContentLoaded', () => {
-            initPuzzles();
-            drawWheel();
-            createFloatingHearts();
+            // FIXED: Added timeout to ensure DOM is fully loaded
+            setTimeout(() => {
+                initPuzzles();
+                drawWheel();
+                createFloatingHearts();
+            }, 100);
             
             document.getElementById('shufflePuzzle1').addEventListener('click', () => {
                 if (!puzzle1Solved) {
@@ -597,4 +615,3 @@
 </body>
 
 </html>
-
