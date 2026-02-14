@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Puzzle & Date Wheel 💕</title>
+    <link rel="stylesheet" href="style-page4.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- GAME SECTION -->
+        <div class="game-section" id="gameSection">
+            <h1 class="game-title">💝 Love Puzzle Challenge 💝</h1>
+            <p class="game-subtitle">Complete both puzzles to unlock your date!</p>
+            
+            <!-- Reference Images -->
+            <div class="reference-images">
+                <div class="reference">
+                    <img src="images/photo1.jpg" alt="Puzzle 1 Reference" class="reference-img" id="ref1">
+                    <p>Puzzle 1 Target</p>
+                </div>
+                <div class="reference">
+                    <img src="images/photo2.jpg" alt="Puzzle 2 Reference" class="reference-img" id="ref2">
+                    <p>Puzzle 2 Target</p>
+                </div>
+            </div>
+            
+            <!-- Puzzle 1 -->
+            <div class="puzzle-container" id="puzzle1Container">
+                <h2 class="puzzle-title">Puzzle 1 ❤️</h2>
+                <div class="puzzle-grid" id="puzzle1"></div>
+                <div class="puzzle-controls">
+                    <button class="shuffle-btn" id="shufflePuzzle1">
+                        <i class="fas fa-random"></i> Shuffle
+                    </button>
+                    <button class="check-btn" id="checkPuzzle1">
+                        <i class="fas fa-check"></i> Check Puzzle 1
+                    </button>
+                </div>
+                <div class="piece-count" id="pieceCount1">0/6 pieces correct</div>
+            </div>
+            
+            <!-- Puzzle 2 -->
+            <div class="puzzle-container" id="puzzle2Container">
+                <h2 class="puzzle-title">Puzzle 2 💕</h2>
+                <div class="puzzle-grid" id="puzzle2"></div>
+                <div class="puzzle-controls">
+                    <button class="shuffle-btn" id="shufflePuzzle2">
+                        <i class="fas fa-random"></i> Shuffle
+                    </button>
+                    <button class="check-btn" id="checkPuzzle2">
+                        <i class="fas fa-check"></i> Check Puzzle 2
+                    </button>
+                </div>
+                <div class="piece-count" id="pieceCount2">0/6 pieces correct</div>
+            </div>
+            
+            <!-- Game Message -->
+            <div class="game-message" id="gameMessage"></div>
+            
+            <!-- Next Button -->
+            <button class="next-game-btn" id="nextToDateBtn" style="display: none;">
+                <i class="fas fa-heart"></i> Continue to Date Selection <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <!-- DATE QUESTION SECTION -->
+        <div class="date-section" id="dateSection" style="display: none;">
+            <div class="date-card">
+                <h1 class="date-question">💖 Will you go on a date with me? 💖</h1>
+                
+                <div class="memory-photo">
+                    <img src="images/couple-photo2.jpeg" alt="Our Memory" id="memoryPhoto">
+                    <div class="photo-glow"></div>
+                </div>
+                
+                <div class="date-buttons">
+                    <button class="yes-date-btn" id="yesDateBtn">
+                        <i class="fas fa-heart"></i> YES! 💕
+                    </button>
+                    <button class="only-yes-btn" id="onlyYesBtn">
+                        <i class="fas fa-heart"></i> Only YES is an option! 💕
+                    </button>
+                </div>
+                
+                <div class="fun-message" id="funMessage"></div>
+            </div>
+        </div>
+        
+        <!-- WHEEL SECTION -->
+        <div class="wheel-section" id="wheelSection" style="display: none;">
+            <h1 class="wheel-title">🎡 Spin the Date Wheel! 🎡</h1>
+            
+            <div class="wheel-container">
+                <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                <div class="wheel-pointer">▼</div>
+            </div>
+            
+            <button class="spin-btn" id="spinWheelBtn">
+                <i class="fas fa-sync-alt"></i> SPIN THE WHEEL!
+            </button>
+            
+            <div class="result-section" id="resultSection" style="display: none;">
+                <h2 class="result-title">🎉 Congratulations! 🎉</h2>
+                <p class="result-text">You won: <span id="wonDate"></span></p>
+                
+                <div class="result-buttons">
+                    <button class="spin-again-btn" id="spinAgainBtn">
+                        <i class="fas fa-redo"></i> Spin Again
+                    </button>
+                    <button class="date-time-btn" id="dateTimeBtn">
+                        <i class="fas fa-calendar-alt"></i> Date & Time
+                    </button>
+                </div>
+            </div>
+            
+            <div class="datetime-popup" id="datetimePopup">
+                <div class="datetime-content">
+                    <span class="close-datetime" id="closeDatetime">&times;</span>
+                    <i class="fas fa-calendar-check"></i>
+                    <h2>Your Special Date</h2>
+                    <p class="date-info">📅 Date: <strong>21st February</strong></p>
+                    <p class="time-info">⏰ Time: <strong>1:00 PM (Afternoon)</strong></p>
+                    <p class="location-info">📍 Location: <strong>As per your wheel spin!</strong></p>
+                    <div class="heart-decoration">❤️ ❤️ ❤️</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- THANK YOU POPUP -->
+        <div class="thankyou-popup" id="thankyouPopup">
+            <div class="thankyou-content">
+                <span class="close-thankyou" id="closeThankyou">&times;</span>
+                <div class="thankyou-hearts">
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h2>Thank You! 💝</h2>
+                <p>For your precious time and love</p>
+                <p class="valentine-message">Happy Valentine's Day!</p>
+                <p class="signature">With Love, ❤️</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== REAL IMAGE PUZZLE USING CANVAS ====================
+
+        // Your photos
+        const photo1 = 'images/photo1.jpg';
+        const photo2 = 'images/photo2.jpg';
+        
+        // Puzzle state
+        let puzzle1Solved = false;
+        let puzzle2Solved = false;
+        let puzzle1Pieces = [];
+        let puzzle2Pieces = [];
+        let selectedPiece = { puzzle: null, index: null };
+        
+        // Canvas elements for slicing images
+        const canvas1 = document.createElement('canvas');
+        const canvas2 = document.createElement('canvas');
+        const ctx1 = canvas1.getContext('2d');
+        const ctx2 = canvas2.getContext('2d');
+        
+        // Set canvas size (300x200 for puzzle grid)
+        canvas1.width = 300;
+        canvas1.height = 200;
+        canvas2.width = 300;
+        canvas2.height = 200;
+        
+        // Initialize puzzles when images load
+        function initPuzzles() {
+            const img1 = new Image();
+            const img2 = new Image();
+            
+            img1.crossOrigin = 'anonymous';
+            img2.crossOrigin = 'anonymous';
+            
+            img1.src = photo1 + '?t=' + new Date().getTime(); // Cache bust
+            img2.src = photo2 + '?t=' + new Date().getTime();
+            
+            Promise.all([
+                new Promise(resolve => { img1.onload = resolve; }),
+                new Promise(resolve => { img2.onload = resolve; })
+            ]).then(() => {
+                // Draw images to canvas
+                ctx1.drawImage(img1, 0, 0, 300, 200);
+                ctx2.drawImage(img2, 0, 0, 300, 200);
+                
+                // Initialize puzzle pieces
+                for (let i = 0; i < 6; i++) {
+                    puzzle1Pieces.push(i);
+                    puzzle2Pieces.push(i);
+                }
+                
+                // Shuffle
+                shufflePieces(puzzle1Pieces);
+                shufflePieces(puzzle2Pieces);
+                
+                // Render puzzles
+                renderPuzzle('puzzle1', puzzle1Pieces, canvas1);
+                renderPuzzle('puzzle2', puzzle2Pieces, canvas2);
+                updatePieceCount();
+            }).catch(error => {
+                console.error('Error loading images:', error);
+                document.getElementById('gameMessage').innerHTML = '❌ Error loading images. Please check file paths.';
+            });
+        }
+        
+        // Shuffle pieces
+        function shufflePieces(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // Render puzzle with actual image pieces (NO NUMBERS)
+        function renderPuzzle(puzzleId, pieces, sourceCanvas) {
+            const puzzle = document.getElementById(puzzleId);
+            puzzle.innerHTML = '';
+            
+            // Create temporary canvas for each piece
+            const pieceCanvas = document.createElement('canvas');
+            pieceCanvas.width = 100;
+            pieceCanvas.height = 100;
+            const pieceCtx = pieceCanvas.getContext('2d');
+            
+            pieces.forEach((piece, index) => {
+                // Calculate position in original image
+                const row = Math.floor(piece / 3);
+                const col = piece % 3;
+                const sx = col * 100;
+                const sy = row * 100;
+                
+                // Draw piece from source canvas
+                pieceCtx.clearRect(0, 0, 100, 100);
+                pieceCtx.drawImage(sourceCanvas, sx, sy, 100, 100, 0, 0, 100, 100);
+                
+                // Create piece element
+                const pieceDiv = document.createElement('div');
+                pieceDiv.className = 'puzzle-piece';
+                pieceDiv.setAttribute('data-index', index);
+                pieceDiv.setAttribute('data-value', piece);
+                
+                // Convert canvas to data URL
+                pieceDiv.style.backgroundImage = `url('${pieceCanvas.toDataURL()}')`;
+                pieceDiv.style.backgroundSize = 'cover';
+                
+                // NO NUMBERS ADDED - pieces are clean
+                
+                pieceDiv.addEventListener('click', () => selectPiece(puzzleId, index));
+                puzzle.appendChild(pieceDiv);
+            });
+        }
+        
+        // Select piece for swapping
+        function selectPiece(puzzleId, index) {
+            if (puzzleId === 'puzzle1' && puzzle1Solved) return;
+            if (puzzleId === 'puzzle2' && puzzle2Solved) return;
+            
+            const pieces = puzzleId === 'puzzle1' ? puzzle1Pieces : puzzle2Pieces;
+            const sourceCanvas = puzzleId === 'puzzle1' ? canvas1 : canvas2;
+            
+            // Remove selection from all pieces
+            document.querySelectorAll(`#${puzzleId} .puzzle-piece`).forEach(p => {
+                p.classList.remove('selected');
+            });
+            
+            // If no piece selected or different puzzle, select this piece
+            if (selectedPiece.puzzle !== puzzleId || selectedPiece.index === null) {
+                selectedPiece = { puzzle: puzzleId, index: index };
+                document.querySelector(`#${puzzleId} .puzzle-piece[data-index="${index}"]`).classList.add('selected');
+            } 
+            // If same piece selected, deselect it
+            else if (selectedPiece.puzzle === puzzleId && selectedPiece.index === index) {
+                selectedPiece = { puzzle: null, index: null };
+            }
+            // If different piece selected in same puzzle, swap them
+            else if (selectedPiece.puzzle === puzzleId && selectedPiece.index !== index) {
+                // Swap pieces
+                [pieces[selectedPiece.index], pieces[index]] = [pieces[index], pieces[selectedPiece.index]];
+                
+                // Re-render puzzle
+                renderPuzzle(puzzleId, pieces, sourceCanvas);
+                
+                // Clear selection
+                selectedPiece = { puzzle: null, index: null };
+                
+                // Update piece count
+                updatePieceCount();
+            }
+        }
+        
+        // Check puzzle
+        function checkPuzzle(puzzleId) {
+            const pieces = puzzleId === 'puzzle1' ? puzzle1Pieces : puzzle2Pieces;
+            const messageDiv = document.getElementById('gameMessage');
+            
+            // Count correct pieces
+            let correctCount = 0;
+            pieces.forEach((piece, index) => {
+                if (piece === index) correctCount++;
+            });
+            
+            // Update piece count display
+            updatePieceCount();
+            
+            if (correctCount === 6) {
+                if (puzzleId === 'puzzle1') {
+                    puzzle1Solved = true;
+                    messageDiv.innerHTML = '✅ Puzzle 1 solved! Now solve Puzzle 2!';
+                    messageDiv.style.color = '#2b8a3e';
+                    
+                    // Disable puzzle 1 pieces
+                    document.querySelectorAll('#puzzle1 .puzzle-piece').forEach(piece => {
+                        piece.style.pointerEvents = 'none';
+                        piece.style.opacity = '0.8';
+                    });
+                    
+                } else {
+                    puzzle2Solved = true;
+                    messageDiv.innerHTML = '✅ Puzzle 2 solved! Both puzzles complete!';
+                    messageDiv.style.color = '#2b8a3e';
+                    
+                    // Disable puzzle 2 pieces
+                    document.querySelectorAll('#puzzle2 .puzzle-piece').forEach(piece => {
+                        piece.style.pointerEvents = 'none';
+                        piece.style.opacity = '0.8';
+                    });
+                }
+                
+                // Check if both puzzles solved
+                if (puzzle1Solved && puzzle2Solved) {
+                    messageDiv.innerHTML = '🎉 Congratulations! Both puzzles solved! 🎉';
+                    document.getElementById('nextToDateBtn').style.display = 'block';
+                    
+                    // Celebration hearts
+                    for (let i = 0; i < 30; i++) {
+                        setTimeout(() => {
+                            createCelebrationHeart();
+                        }, i * 50);
+                    }
+                }
+            } else {
+                messageDiv.innerHTML = `❌ ${correctCount}/6 pieces correct. Keep trying!`;
+                messageDiv.style.color = '#c92a2a';
+            }
+        }
+        
+        // Update piece count display
+        function updatePieceCount() {
+            let correct1 = 0;
+            puzzle1Pieces.forEach((piece, index) => {
+                if (piece === index) correct1++;
+            });
+            document.getElementById('pieceCount1').textContent = `${correct1}/6 pieces correct`;
+            
+            let correct2 = 0;
+            puzzle2Pieces.forEach((piece, index) => {
+                if (piece === index) correct2++;
+            });
+            document.getElementById('pieceCount2').textContent = `${correct2}/6 pieces correct`;
+        }
+        
+        // Create celebration heart
+        function createCelebrationHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'celebration-heart';
+            heart.innerHTML = ['❤️', '💖', '💕', '💗', '💓'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.fontSize = (20 + Math.random() * 40) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1000);
+        }
+        
+        // ==================== DATE WHEEL ====================
+        
+        const dateOptions = [
+            '🎳 Bowling',
+            '📸 Photo Booth',
+            '🎬 Movie Date',
+            '🛕 Babulnath',
+            '☕ Cafe Date',
+            '🕉️ Iskon + Juhu Beach'
+        ];
+        
+        const wheelColors = ['#667eea', '#764ba2', '#6b8cff', '#a5b8ff', '#4a6cf7', '#8a6de9'];
+        let wheelCanvas = document.getElementById('wheelCanvas');
+        let ctx = wheelCanvas.getContext('2d');
+        let currentRotation = 0;
+        let spinning = false;
+        
+        function drawWheel(rotation = 0) {
+            const angleStep = (Math.PI * 2) / dateOptions.length;
+            ctx.clearRect(0, 0, 400, 400);
+            
+            for (let i = 0; i < dateOptions.length; i++) {
+                const startAngle = i * angleStep + rotation;
+                const endAngle = (i + 1) * angleStep + rotation;
+                
+                ctx.beginPath();
+                ctx.moveTo(200, 200);
+                ctx.arc(200, 200, 180, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = wheelColors[i];
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                ctx.save();
+                ctx.translate(200, 200);
+                ctx.rotate(startAngle + angleStep / 2);
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 14px Poppins';
+                ctx.shadowColor = '#000';
+                ctx.shadowBlur = 5;
+                
+                let shortText = dateOptions[i].replace('Iskon + Juhu Beach', 'Iskon');
+                ctx.fillText(shortText, 120, 0);
+                ctx.restore();
+            }
+            
+            ctx.beginPath();
+            ctx.arc(200, 200, 40, 0, 2 * Math.PI);
+            ctx.fillStyle = '#667eea';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.font = '30px "Font Awesome 6 Free"';
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('❤️', 200, 200);
+        }
+        
+        function spinWheel() {
+            if (spinning) return;
+            spinning = true;
+            document.getElementById('spinWheelBtn').disabled = true;
+            
+            const spins = 10;
+            const targetRotation = currentRotation + (spins * 2 * Math.PI) + (Math.random() * 2 * Math.PI);
+            const startTime = Date.now();
+            const duration = 3000;
+            
+            function animateSpin() {
+                const elapsed = Date.now() - startTime;
+                if (elapsed < duration) {
+                    const progress = elapsed / duration;
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    currentRotation = currentRotation + (targetRotation - currentRotation) * easeOut;
+                    drawWheel(currentRotation);
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    currentRotation = targetRotation % (2 * Math.PI);
+                    drawWheel(currentRotation);
+                    spinning = false;
+                    document.getElementById('spinWheelBtn').disabled = false;
+                    
+                    const angleStep = (Math.PI * 2) / dateOptions.length;
+                    const pointerAngle = 4.71;
+                    let normalizedRotation = (pointerAngle - currentRotation + 2 * Math.PI) % (2 * Math.PI);
+                    const wonIndex = Math.floor(normalizedRotation / angleStep) % dateOptions.length;
+                    
+                    document.getElementById('wonDate').textContent = dateOptions[wonIndex];
+                    document.getElementById('resultSection').style.display = 'block';
+                    
+                    for (let i = 0; i < 20; i++) {
+                        setTimeout(createCelebrationHeart, i * 50);
+                    }
+                }
+            }
+            animateSpin();
+        }
+        
+        // ==================== EVENT LISTENERS ====================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initPuzzles();
+            drawWheel();
+            createFloatingHearts();
+            
+            document.getElementById('shufflePuzzle1').addEventListener('click', () => {
+                if (!puzzle1Solved) {
+                    shufflePieces(puzzle1Pieces);
+                    renderPuzzle('puzzle1', puzzle1Pieces, canvas1);
+                    updatePieceCount();
+                    selectedPiece = { puzzle: null, index: null };
+                }
+            });
+            
+            document.getElementById('shufflePuzzle2').addEventListener('click', () => {
+                if (!puzzle2Solved) {
+                    shufflePieces(puzzle2Pieces);
+                    renderPuzzle('puzzle2', puzzle2Pieces, canvas2);
+                    updatePieceCount();
+                    selectedPiece = { puzzle: null, index: null };
+                }
+            });
+            
+            document.getElementById('checkPuzzle1').addEventListener('click', () => checkPuzzle('puzzle1'));
+            document.getElementById('checkPuzzle2').addEventListener('click', () => checkPuzzle('puzzle2'));
+            
+            document.getElementById('nextToDateBtn').addEventListener('click', () => {
+                document.getElementById('gameSection').style.display = 'none';
+                document.getElementById('dateSection').style.display = 'block';
+            });
+            
+            document.getElementById('yesDateBtn').addEventListener('click', () => {
+                document.getElementById('dateSection').style.display = 'none';
+                document.getElementById('wheelSection').style.display = 'block';
+            });
+            
+            const onlyYesBtn = document.getElementById('onlyYesBtn');
+            const funMessage = document.getElementById('funMessage');
+            
+            onlyYesBtn.addEventListener('mouseover', () => {
+                funMessage.innerHTML = '😊 There is no "No" option! Only YES!';
+                funMessage.style.opacity = '1';
+            });
+            
+            onlyYesBtn.addEventListener('mouseout', () => {
+                funMessage.style.opacity = '0';
+            });
+            
+            onlyYesBtn.addEventListener('click', () => {
+                funMessage.innerHTML = '🎉 That\'s my love! Now click the real YES button!';
+                funMessage.style.color = '#667eea';
+            });
+            
+            document.getElementById('spinWheelBtn').addEventListener('click', spinWheel);
+            
+            document.getElementById('spinAgainBtn').addEventListener('click', () => {
+                document.getElementById('resultSection').style.display = 'none';
+            });
+            
+            document.getElementById('dateTimeBtn').addEventListener('click', () => {
+                document.getElementById('datetimePopup').style.display = 'flex';
+            });
+            
+            document.getElementById('closeDatetime').addEventListener('click', () => {
+                document.getElementById('datetimePopup').style.display = 'none';
+                setTimeout(() => {
+                    document.getElementById('thankyouPopup').style.display = 'flex';
+                }, 500);
+            });
+            
+            document.getElementById('closeThankyou').addEventListener('click', () => {
+                document.getElementById('thankyouPopup').style.display = 'none';
+            });
+            
+            document.getElementById('datetimePopup').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('datetimePopup')) {
+                    e.target.style.display = 'none';
+                    setTimeout(() => {
+                        document.getElementById('thankyouPopup').style.display = 'flex';
+                    }, 500);
+                }
+            });
+            
+            document.getElementById('thankyouPopup').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('thankyouPopup')) {
+                    e.target.style.display = 'none';
+                }
+            });
+        });
+        
+        function createFloatingHearts() {
+            const container = document.querySelector('.floating-hearts');
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${15 + Math.random() * 30}px`;
+                heart.style.animationDuration = `${4 + Math.random() * 6}s`;
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 10000);
+            }
+            setInterval(createHeart, 800);
+        }
+    </script>
+</body>
+</html>

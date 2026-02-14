@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💝</title>
+    <link rel="stylesheet" href="style-page3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="images/our-song.mp3" type="audio/mpeg">
+        <!-- Fallback if file doesn't exist -->
+    </audio>
+
+    <div class="container">
+        <!-- Background elements -->
+        <div class="floating-hearts"></div>
+        <div class="glow-effect"></div>
+        
+        <!-- Main Content -->
+        <div class="valentine-card">
+            <h1 class="title">💖BE MY VALINTINE💖</h1>
+            
+            <!-- Photo Frame with Your Photo -->
+            <div class="photo-frame">
+                <div class="photo" id="yourPhoto">
+                    <!-- Add your photo here -->
+                    <img src="images/couple-photo.jpg" alt="Us Together" id="couplePhoto">
+                    <div class="photo-overlay">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+                <div class="photo-caption">कटकट आणि माचमाच💞</div>
+            </div>
+            
+            <!-- Music Player -->
+            <div class="music-player">
+                <button class="music-btn" id="playPauseBtn">
+                    <i class="fas fa-play" id="playPauseIcon"></i>
+                </button>
+                <div class="song-info">
+                    <span class="song-name">Our Song</span>
+                    <div class="music-bars">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question -->
+            <h2 class="question">Will you be my Valentine forever?</h2>
+            
+            <!-- Buttons -->
+            <div class="button-container">
+                <button class="yes-btn" id="yesBtn">
+                    <i class="fas fa-heart"></i>
+                    YES!💋
+                    <i class="fas fa-heart"></i>
+                </button>
+                
+                <button class="no-btn" id="noBtn">
+                    <i class="fas fa-heart-broken"></i>
+                    No🤨
+                </button>
+            </div>
+        </div>
+        
+        <!-- Congratulations Popup -->
+        <div class="popup-overlay" id="congratsPopup">
+            <div class="popup-content">
+                <span class="close-popup" id="closePopup">&times;</span>
+                <div class="popup-icon">
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h2 class="popup-title">Congratulations! 🎉</h2>
+                <p class="popup-message">You earned a headache forever</p>
+                <p class="popup-submessage">करके बायको तू लेजा मुझे घरको💍</p>
+                
+                <!-- Celebration Animation -->
+                <div class="celebration-hearts" id="celebrationHearts"></div>
+                
+                <button class="continue-btn" id="continueBtn">
+                    Continue to Final Surprise <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const congratsPopup = document.getElementById('congratsPopup');
+        const closePopup = document.getElementById('closePopup');
+        const continueBtn = document.getElementById('continueBtn');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playPauseIcon = document.getElementById('playPauseIcon');
+        const bgMusic = document.getElementById('bgMusic');
+        
+        // State
+        let musicPlaying = false;
+        let noButtonClicks = 0;
+
+        // Create floating hearts background
+        function createFloatingHearts() {
+            const container = document.querySelector('.floating-hearts');
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = '💕';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${15 + Math.random() * 30}px`;
+                heart.style.animationDuration = `${4 + Math.random() * 6}s`;
+                container.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 10000);
+            }
+            
+            setInterval(createHeart, 800);
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        }
+
+        // No button movement
+        function moveNoButton() {
+            const button = noBtn;
+            const container = document.querySelector('.button-container');
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = button.getBoundingClientRect();
+            
+            // Calculate safe boundaries
+            const maxX = containerRect.width - buttonRect.width - 20;
+            const maxY = containerRect.height - buttonRect.height - 20;
+            
+            // Generate random position
+            let newX = Math.random() * maxX;
+            let newY = Math.random() * maxY;
+            
+            // Keep button within container
+            newX = Math.max(10, Math.min(newX, maxX));
+            newY = Math.max(10, Math.min(newY, maxY));
+            
+            // Apply new position
+            button.style.position = 'absolute';
+            button.style.left = `${newX}px`;
+            button.style.top = `${newY}px`;
+            
+            // Add random rotation for fun
+            const rotation = (Math.random() - 0.5) * 30;
+            button.style.transform = `rotate(${rotation}deg)`;
+            
+            noButtonClicks++;
+            
+            // Funny messages after multiple attempts
+            if (noButtonClicks === 3) {
+                alert('Nice try! babyyyy');
+            } else if (noButtonClicks === 5) {
+                alert('Stop running! Just say YES already! You cannot escape me !!💕');
+            } else if (noButtonClicks === 7) {
+                alert('है जो हिम्मत तू करले मुझे बायको💝');
+            } else if (noButtonClicks === 10) {
+                alert('Don\'t challenge me!');
+                // AFTER THIS MESSAGE, MAKE THE NO BUTTON DISAPPEAR
+                button.style.display = 'none';
+                
+                // Optional: Add a victory message
+                const victoryMsg = document.createElement('div');
+                victoryMsg.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(135deg, #ff4d6d 0%, #ff8fa3 100%);
+                    color: white;
+                    padding: 20px 40px;
+                    border-radius: 50px;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    z-index: 1000;
+                    animation: fadeInOut 3s forwards;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    border: 2px solid white;
+                `;
+                victoryMsg.innerHTML = 'Now you have no option💕';
+                document.body.appendChild(victoryMsg);
+                
+                setTimeout(() => {
+                    victoryMsg.remove();
+                }, 3000);
+            }
+        }
+
+        // Yes button click
+        function handleYesClick() {
+            // Show popup
+            congratsPopup.classList.add('show');
+            
+            // Create celebration hearts
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('celebration-heart');
+                    heart.innerHTML = ['❤️', '💖', '💕', '💗', '💓'][Math.floor(Math.random() * 5)];
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.top = `${Math.random() * 100}%`;
+                    heart.style.fontSize = `${20 + Math.random() * 40}px`;
+                    heart.style.animation = 'popUp 1s ease-out forwards';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 1000);
+                }, i * 30);
+            }
+            
+            // Play music if not playing
+            if (!musicPlaying) {
+                toggleMusic();
+            }
+        }
+
+        // Music control
+        function toggleMusic() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                playPauseIcon.className = 'fas fa-play';
+            } else {
+                bgMusic.play().catch(e => {
+                    console.log('Music autoplay prevented:', e);
+                    // Show message to user
+                    alert('Click anywhere to play our song! 🎵');
+                    
+                    // Add one-time click listener
+                    document.body.addEventListener('click', function playOnClick() {
+                        bgMusic.play();
+                        document.body.removeEventListener('click', playOnClick);
+                    }, { once: true });
+                });
+                playPauseIcon.className = 'fas fa-pause';
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // Event Listeners
+        yesBtn.addEventListener('click', handleYesClick);
+        
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+            // Add a little shake effect
+            noBtn.style.animation = 'shake 0.5s ease';
+            setTimeout(() => {
+                noBtn.style.animation = '';
+            }, 500);
+        });
+
+        // Prevent No button from being clicked by tab key
+        noBtn.addEventListener('focus', () => {
+            setTimeout(moveNoButton, 10);
+        });
+
+        closePopup.addEventListener('click', () => {
+            congratsPopup.classList.remove('show');
+        });
+
+        // UPDATED: Continue button now links to page 4
+        continueBtn.addEventListener('click', () => {
+            window.location.href = 'page4.html';
+        });
+
+        playPauseBtn.addEventListener('click', toggleMusic);
+
+        // Close popup when clicking outside
+        congratsPopup.addEventListener('click', (e) => {
+            if (e.target === congratsPopup) {
+                congratsPopup.classList.remove('show');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createFloatingHearts();
+            
+            // Try to load music
+            bgMusic.load();
+            
+            // Show music prompt
+            setTimeout(() => {
+                if (!musicPlaying) {
+                    const musicPrompt = document.createElement('div');
+                    musicPrompt.className = 'music-prompt';
+                    musicPrompt.innerHTML = '🎵 Click the music button to play our song! 🎵';
+                    musicPrompt.style.cssText = `
+                        position: fixed;
+                        bottom: 20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: rgba(255, 77, 109, 0.9);
+                        color: white;
+                        padding: 10px 20px;
+                        border-radius: 50px;
+                        font-size: 1rem;
+                        z-index: 1000;
+                        animation: fadeInOut 5s forwards;
+                    `;
+                    document.body.appendChild(musicPrompt);
+                    
+                    setTimeout(() => {
+                        musicPrompt.remove();
+                    }, 5000);
+                }
+            }, 2000);
+        });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+            
+            @keyframes popUp {
+                0% {
+                    transform: translateY(100vh) scale(0);
+                    opacity: 1;
+                }
+                50% {
+                    transform: translateY(50vh) scale(1.5);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100px) scale(0);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translate(-50%, 20px); }
+                10% { opacity: 1; transform: translate(-50%, 0); }
+                90% { opacity: 1; transform: translate(-50%, 0); }
+                100% { opacity: 0; transform: translate(-50%, -20px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

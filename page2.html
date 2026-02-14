@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Love Letter For You 💌</title>
+    <link rel="stylesheet" href="style-page2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Playfair+Display:ital@1&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Background elements -->
+        <div class="floating-hearts"></div>
+        <div class="rose-petals"></div>
+        
+        <!-- Love Letter Container -->
+        <div class="letter-container" id="letterContainer">
+            <!-- Sealed Envelope -->
+            <div class="envelope-wrapper" id="envelopeWrapper">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-body">
+                        <div class="heart-seal">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="wax-seal">💌</div>
+                    </div>
+                    <div class="envelope-shadow"></div>
+                </div>
+                <h2 class="envelope-text">A Letter For You</h2>
+                <p class="envelope-subtext">Click the envelope to open</p>
+            </div>
+            
+            <!-- Letter Content (Hidden initially) -->
+            <div class="letter-content" id="letterContent">
+                <div class="letter-paper">
+                    <div class="letter-header">
+                        <span class="date">February 14, 2026</span>
+                        <div class="heart-divider">❤️ ❤️ ❤️</div>
+                    </div>
+                    
+                    <div class="letter-body">
+                        <p class="greeting">My Dearest Love,</p>
+                        
+                        <p class="message">
+                            From the moment you came into my life, everything changed. 
+                            The sun shines brighter and the days feel warmer. You became 
+                            my everythingin a very less time . I an thankfull to the Gods 
+                            who blessed me with a boyfriend like you . You may not feel 
+                            Happy with us right now but I really truely genuinely Love you.
+                        </p>
+                        
+                        <p class="message">
+                            You are the first thought in my morning and the last dream 
+                            at night. Your smile lights up my entire mood always and 
+                            you know that.I am the happiest with you and want to be the 
+                            happiest person on earth forever till infinity and more.
+                            I cannot imagine a day without you . You are literraly my 
+                            everything.... and I am sorry for the times I caused you pain. 
+                            May God bless you all success and Happiness in Life .
+                        </p>
+                        
+                        <div class="love-points">
+                            <div class="point">
+                                <i class="fas fa-heart"></i>
+                                <span>Thank you for making me feel a better person</span>
+                            </div>
+                            <div class="point">
+                                <i class="fas fa-heart"></i>
+                                <span>Thank you for always keep me your priority</span>
+                            </div>
+                            <div class="point">
+                                <i class="fas fa-heart"></i>
+                                <span>Thank you for every moments you spend with me</span>
+                            </div>
+                            <div class="point">
+                                <i class="fas fa-heart"></i>
+                                <span>You're the best Boyfriend period </span>
+                            </div>
+                        </div>
+                        
+                        <p class="message">
+                            This Valentine's Day, I wanted to do something special 
+                            because you deserve all the love in the universe and more.
+                            I RADHEYY YOU MY KRISHN 💕
+                        </p>
+                        
+                        <p class="closing">
+                            Forever Yours,<br>
+                            <span class="signature">Your Love</span>
+                        </p>
+                    </div>
+                    
+                    <div class="letter-footer">
+                        <div class="heart-divider">💕 💕 💕</div>
+                    </div>
+                </div>
+                
+                <button class="next-page-btn" id="nextPageBtn">
+                    <i class="fas fa-arrow-right"></i>
+                    Continue to Next Surprise
+                    <i class="fas fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const letterContent = document.getElementById('letterContent');
+        const envelope = document.getElementById('envelope');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.querySelector('.floating-hearts');
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = '💕';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${15 + Math.random() * 25}px`;
+                heart.style.animationDuration = `${4 + Math.random() * 6}s`;
+                heart.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 10000);
+            }
+            
+            setInterval(createHeart, 800);
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createHeart, i * 200);
+            }
+        }
+
+        // Create rose petals
+        function createRosePetals() {
+            const container = document.querySelector('.rose-petals');
+            
+            function createPetal() {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.innerHTML = '🎀';
+                petal.style.left = `${Math.random() * 100}%`;
+                petal.style.fontSize = `${20 + Math.random() * 20}px`;
+                petal.style.animationDuration = `${3 + Math.random() * 4}s`;
+                petal.style.opacity = '0.6';
+                container.appendChild(petal);
+                
+                setTimeout(() => {
+                    petal.remove();
+                }, 7000);
+            }
+            
+            setInterval(createPetal, 1000);
+        }
+
+        // Open envelope animation
+        function openEnvelope() {
+            envelope.classList.add('open');
+            
+            // After animation, hide envelope and show letter
+            setTimeout(() => {
+                envelopeWrapper.style.display = 'none';
+                letterContent.classList.add('show');
+                
+                // Add floating hearts celebration
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.classList.add('celebration-heart');
+                        heart.innerHTML = '❤️';
+                        heart.style.left = `${Math.random() * 100}%`;
+                        heart.style.top = `${Math.random() * 100}%`;
+                        heart.style.fontSize = `${20 + Math.random() * 30}px`;
+                        heart.style.animation = 'floatUp 2s ease-out forwards';
+                        document.body.appendChild(heart);
+                        
+                        setTimeout(() => heart.remove(), 2000);
+                    }, i * 50);
+                }
+            }, 1000);
+        }
+
+        // Event listeners
+        envelope.addEventListener('click', openEnvelope);
+        
+        nextPageBtn.addEventListener('click', () => {
+            window.location.href = 'page3.html';
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createFloatingHearts();
+            createRosePetals();
+        });
+    </script>
+</body>
+</html>

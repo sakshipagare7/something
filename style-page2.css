@@ -1,0 +1,428 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fad0c4 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* THIS FIXES THE SCROLLBAR ISSUE */
+    position: relative;
+}
+
+/* Floating elements */
+.floating-hearts, .rose-petals {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-heart {
+    position: absolute;
+    color: rgba(255, 77, 109, 0.5);
+    animation: floatSideways 8s infinite linear;
+    pointer-events: none;
+}
+
+.petal {
+    position: absolute;
+    color: #ffb7c5;
+    animation: fall 7s infinite linear;
+    transform-origin: center;
+}
+
+@keyframes floatSideways {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% {
+        transform: translateY(-100px) translateX(100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Container */
+.container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+/* Letter Container */
+.letter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+/* Envelope Styles */
+.envelope-wrapper {
+    text-align: center;
+    animation: fadeIn 1s ease;
+}
+
+.envelope {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: #f9e5d7;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin: 0 auto;
+}
+
+.envelope:hover {
+    transform: scale(1.05);
+}
+
+.envelope.open {
+    animation: openEnvelope 1s ease forwards;
+}
+
+@keyframes openEnvelope {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(5deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(0deg) scale(0);
+        opacity: 0;
+    }
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: #f1d5b5;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    border-radius: 10px 10px 0 0;
+    transform-origin: top;
+    transition: transform 0.3s ease;
+    z-index: 3;
+}
+
+.envelope-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: #f9e5d7;
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.heart-seal {
+    font-size: 50px;
+    color: #ff4d6d;
+    animation: pulse 1.5s infinite;
+    margin-right: 20px;
+}
+
+.wax-seal {
+    font-size: 60px;
+    animation: glow 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px #ff4d6d; }
+    50% { text-shadow: 0 0 20px #ff4d6d, 0 0 30px #ff4d6d; }
+}
+
+.envelope-shadow {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    filter: blur(10px);
+}
+
+.envelope-text {
+    font-size: 2.5rem;
+    color: #ff4d6d;
+    margin-top: 30px;
+    font-family: 'Dancing Script', cursive;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.envelope-subtext {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* Letter Content */
+.letter-content {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.5s ease;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto; /* ONLY ONE SCROLLBAR HERE */
+    padding: 20px;
+}
+
+.letter-content.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Custom scrollbar - ONLY ONE */
+.letter-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.letter-content::-webkit-scrollbar-track {
+    background: #ffccd5;
+    border-radius: 10px;
+}
+
+.letter-content::-webkit-scrollbar-thumb {
+    background: #ff4d6d;
+    border-radius: 10px;
+}
+
+.letter-paper {
+    background: #fff9f0;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ffccd5;
+    background-image: linear-gradient(#fff9f0 1px, transparent 1px);
+    background-size: 100% 30px;
+}
+
+.letter-paper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 30%, rgba(255, 192, 203, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.letter-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.date {
+    color: #999;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.heart-divider {
+    color: #ff4d6d;
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+.letter-body {
+    font-family: 'Playfair Display', serif;
+    color: #444;
+    line-height: 1.8;
+}
+
+.greeting {
+    font-size: 2rem;
+    font-family: 'Great Vibes', cursive;
+    color: #ff4d6d;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.message {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    text-indent: 30px;
+}
+
+.love-points {
+    background: rgba(255, 77, 109, 0.05);
+    padding: 25px;
+    border-radius: 15px;
+    margin: 30px 0;
+    border-left: 4px solid #ff4d6d;
+}
+
+.point {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.point i {
+    color: #ff4d6d;
+    font-size: 1.2rem;
+    animation: heartbeat 1.5s infinite;
+}
+
+.point:last-child {
+    margin-bottom: 0;
+}
+
+.closing {
+    margin-top: 40px;
+    font-size: 1.2rem;
+    text-align: right;
+    font-style: italic;
+}
+
+.signature {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: #ff4d6d;
+    display: block;
+    margin-top: 10px;
+}
+
+.letter-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Next Page Button */
+.next-page-btn {
+    background: linear-gradient(135deg, #ff4d6d 0%, #ff8fa3 100%);
+    color: white;
+    border: none;
+    padding: 20px 50px;
+    font-size: 1.3rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 40px auto 0;
+    font-weight: 600;
+    box-shadow: 0 15px 35px rgba(255, 77, 109, 0.4);
+    width: fit-content;
+}
+
+.next-page-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 20px 45px rgba(255, 77, 109, 0.6);
+}
+
+.next-page-btn i:first-child {
+    animation: moveRight 1s infinite;
+}
+
+@keyframes moveRight {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+}
+
+/* Celebration Hearts */
+.celebration-heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    animation: floatUp 2s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .envelope {
+        width: 250px;
+        height: 160px;
+    }
+    
+    .envelope-text {
+        font-size: 2rem;
+    }
+    
+    .letter-paper {
+        padding: 30px 20px;
+    }
+    
+    .greeting {
+        font-size: 1.8rem;
+    }
+    
+    .message {
+        font-size: 1rem;
+    }
+    
+    .point {
+        font-size: 1rem;
+    }
+    
+    .signature {
+        font-size: 1.8rem;
+    }
+    
+    .next-page-btn {
+        padding: 15px 35px;
+        font-size: 1.1rem;
+    }
+}
